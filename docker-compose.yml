@@ -17,8 +17,7 @@ services:
       context: ./
       dockerfile: ./.docker/php/Dockerfile
       args:
-        user: laravel
-        uid: 1000
+        user: www-data
     restart: unless-stopped
     networks:
       - playground
