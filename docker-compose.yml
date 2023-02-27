@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   nginx:
+    container_name: laravel-playground-nginx
     image: nginx:alpine
     restart: unless-stopped
     networks:
@@ -13,6 +14,7 @@ services:
       - ./.docker/nginx:/etc/nginx/conf.d/
 
   php:
+    container_name: laravel-playground-php
     build:
       context: ./
       dockerfile: ./.docker/php/Dockerfile
@@ -26,6 +28,7 @@ services:
     working_dir: /var/www/
 
   mysql:
+    container_name: laravel-playground-mysql
     image: mysql:5.7
     restart: unless-stopped
     platform: linux/amd64
@@ -41,19 +44,12 @@ services:
       MYSQL_DATABASE: ${DB_DATABASE}
 
   redis:
-      image: redis
-      networks:
-        - playground
-      ports:
-        - 6379:6379
-
-  mailhog:
-    image: mailhog/mailhog
+    container_name: laravel-playground-redis
+    image: redis
     networks:
       - playground
     ports:
-      - 1025:1025
-      - 8025:8025
+      - 6379:6379
 
 volumes:
   mysql-data:
