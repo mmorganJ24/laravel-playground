@@ -26,6 +26,28 @@ services:
     volumes:
       - ./:/var/www
     working_dir: /var/www/
+    depends_on:
+        - redis
+
+  php-horizon:
+      container_name: laravel-playground-horizon
+      build:
+          context: ./
+          dockerfile: ./.docker/php/Dockerfile
+          args:
+              user: www-data
+      restart: unless-stopped
+      networks:
+          - playground
+      volumes:
+          - ./:/var/www
+          - ./.docker/horizon:/etc/supervisor/conf.d
+          - ./.docker/supervisord/logs:/etc/supervisor/logs
+          - ./.docker/supervisord/pid:/etc/supervisor/pid
+      working_dir: /var/www/
+      command: [ "/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/worker.conf", "-u", "www-data" ]
+      depends_on:
+          - redis
 
   mysql:
     container_name: laravel-playground-mysql
