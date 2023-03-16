@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Deploy via Envoyer
+      id: deployment-request
       uses: fjogeleit/http-request-action@v1.14.0
       with:
         url: 'https://envoyer.io/deploy/OZEEwItiahKt3pvAHkAioLU6o9lUkeGmvEA9RF7P?branch=main'
+        method: 'GET'
+    - name: Show Response
+      run: |
+        echo ${{ steps.deployment-request.outputs.response }}
