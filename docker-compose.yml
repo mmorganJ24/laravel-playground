@@ -42,8 +42,6 @@ services:
       volumes:
           - ./:/var/www
           - ./.docker/horizon:/etc/supervisor/conf.d
-          - ./.docker/supervisord/logs:/etc/supervisor/logs
-          - ./.docker/supervisord/pid:/etc/supervisor/pid
       working_dir: /var/www/
       command: [ "/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/worker.conf", "-u", "www-data" ]
       depends_on:
