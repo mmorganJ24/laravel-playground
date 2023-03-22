@@ -22,7 +22,7 @@ class RunTestController extends Controller
 
                 return response()->json(['passed' => true]);
             } catch (Throwable $exception) {
-                return response()->json(['passed' => false, 'error' => $exception->getMessage()]);
+                return response()->json(['passed' => false, 'error' => 'Something went wrong - check the logs.']);
             }
         }
 
@@ -32,7 +32,7 @@ class RunTestController extends Controller
 
                 return response()->json(['passed' => true]);
             } catch (Throwable $exception) {
-                return response()->json(['passed' => false, 'error' => $exception->getMessage()]);
+                return response()->json(['passed' => false, 'error' => 'Something went wrong - check the logs.']);
             }
         }
 
@@ -51,9 +51,9 @@ class RunTestController extends Controller
                     return response()->json(['passed' => true]);
                 }
 
-                return response()->json(['passed' => false, 'error' => 'Something went wrong - the job was not completed.']);
-            } catch (Throwable $exception) {
-                return response()->json(['passed' => false, 'error' => $exception->getMessage()]);
+                return response()->json(['passed' => false, 'error' => 'Something went wrong - the job was not processed.']);
+            } catch (Throwable) {
+                return response()->json(['passed' => false, 'error' => 'Something went wrong - check the logs.']);
             }
         }
 
