@@ -26,26 +26,6 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-resource "aws_security_group" "security_group" {
-  vpc_id = aws_vpc.vpc.id
-
-  # Allow HTTP traffic from office vpn
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "http"
-    cidr_blocks = ["185.18.147.159/32"]
-  }
-
-  # Allow SSH traffic from office vpn
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["185.18.147.159/32"]
-  }
-}
-
 resource "aws_subnet" "vpc_public_subnet" {
   vpc_id = aws_vpc.vpc.id
 
@@ -59,6 +39,26 @@ resource "aws_subnet" "vpc_public_subnet" {
 #========================================================
 # EC2
 #========================================================
+resource "aws_security_group" "security_group" {
+    vpc_id = aws_vpc.vpc.id
+
+    # Allow HTTP traffic from office vpn
+    ingress {
+        from_port   = 80
+        to_port     = 80
+        protocol    = "http"
+        cidr_blocks = ["185.18.147.159/32"]
+    }
+
+    # Allow SSH traffic from office vpn
+    ingress {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["185.18.147.159/32"]
+    }
+}
+
 resource "aws_instance" "ec2" {
   subnet_id              = aws_subnet.vpc_public_subnet.id
   vpc_security_group_ids = [aws_security_group.security_group.id]
